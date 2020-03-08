@@ -1,0 +1,32 @@
+
+.title {
+  font-size: 22px;
+  margin: 0 0 15px;
+}
+
+.buttonContainer {
+  position: relative;
+  margin-top: 15px;
+}
+.buttonLoader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loadingSpinner{
+  color: #eceff1;
+}
+.buttonSuccess,
+.buttonSuccess:hover {
+  background-color: #4caf50;
+}
+
+.error {
+  margin: 12px 0;
+}

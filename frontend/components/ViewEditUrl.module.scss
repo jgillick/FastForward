@@ -1,0 +1,12 @@
+
+.viewContainer,
+.editContainer {
+  display: flex;
+}
+
+.viewUrl {
+  flex-grow: 1;
+  margin: 0 10px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

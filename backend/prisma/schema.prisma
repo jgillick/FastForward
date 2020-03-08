@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Link {
+  name        String         @id
+  url         String
+  history     Revision[]
+  redirects   RedirectLog[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+model Revision {
+  id          String         @default(uuid()) @id
+  link        Link
+  url         String
+  user        User
+  createdAt   DateTime       @default(now())
+}
+
+model RedirectLog {
+  id         String    @default(uuid()) @id
+  link       Link
+  ip         String?
+  userAgent  String?
+  createdAt  DateTime  @default(now())
+
+  @@index([link], name: "link")
+}
+
+model User {
+  id          String      @default(uuid()) @id
+  name        String
+  picture     String?
+  revisions   Revision[]
+  lastLogin   DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}

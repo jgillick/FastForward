@@ -1,0 +1,35 @@
+
+.url {
+  margin: 15px 0;
+}
+
+.history,
+.chart {
+  padding: 20px;
+  margin: 15px 0;
+}
+
+.chart h1 {
+  margin-bottom: 10px;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+}
+
+.historyUrl {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: none;
+}
+
+.pastRev {
+  padding-left: 50px;
+  font-size: 12px;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  margin-right: 3px;
+}

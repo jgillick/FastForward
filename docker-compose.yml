@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: .
+      args:
+        - DATABASE_URL=${DATABASE_URL}
+    # command: npm run dev
+    command: ls -al ./node_modules
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      - db
+    environment:
+      - GRAPHQL_URL=${GRAPHQL_URL}
+      - DATABASE_URL=${DATABASE_URL}
+      - AUTH_DOMAINS=${AUTH_DOMAINS}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - HOST=0.0.0.0
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: fastforward
+      MYSQL_ROOT_PASSWORD: root
