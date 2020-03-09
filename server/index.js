@@ -1,28 +1,31 @@
 import path from 'path';
 import express from 'express';
 import next from 'next';
-// import cors from 'cors';
 
-import apolloServer from './backend';
+import redirectHandler from './redirectHandler';
+import apolloServer from '../backend';
 
 const port = process.env.PORT || 3000;
 const dev = process.env.NODE_ENV !== 'production';
 
 const nextApp = next({
   dev,
-  dir: path.join(__dirname, 'frontend'),
+  dir: path.join(__dirname, '../frontend'),
 });
 const nextHandler = nextApp.getRequestHandler();
 
 nextApp.prepare().then(() => {
   const app = express();
-  // app.use(cors());
 
   // Graphql Server
   apolloServer.applyMiddleware({
     app,
     path: '/_/graphql',
   });
+
+  // Attempt to process a redirect
+  // If it's not the root path and doesn't start with underscore, attempt a redirect
+  app.all(/^\/[^_]+/, redirectHandler);
 
   // Pass all other requests to Next.js
   app.all('*', (req, res) => {

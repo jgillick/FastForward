@@ -6,8 +6,7 @@ services:
       context: .
       args:
         - DATABASE_URL=${DATABASE_URL}
-    # command: npm run dev
-    command: ls -al ./node_modules
+    command: npm run dev
     ports:
       - "3000:3000"
     volumes:

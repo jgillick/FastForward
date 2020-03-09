@@ -10,8 +10,8 @@ export default class MyDocument extends Document {
         <Head>
           <meta name="theme-color" content={theme.palette.primary.main} />
           <meta name="google-signin-client_id" content={process.env.GOOGLE_CLIENT_ID} />
-          <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
           <script src="https://apis.google.com/js/platform.js" async defer></script>
+          <link rel="shortcut icon" type="image/x-icon" href="/_/favicon.ico" />
         </Head>
         <body>
           <Main />
