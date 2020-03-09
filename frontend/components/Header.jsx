@@ -1,5 +1,6 @@
 
 import Avatar from '@material-ui/core/Avatar';
+import Tooltip from '@material-ui/core/Tooltip';
 import Container from '@material-ui/core/Container';
 import FastForwardIcon from '@material-ui/icons/FastForward';
 import Button from '@material-ui/core/Button';
@@ -27,9 +28,16 @@ export default function Header() {
     <Container component="main" maxWidth="xs" className={css.header}>
       <Link href="/">
         <a>
-          <Avatar className={css.logoIcon}>
-            <FastForwardIcon />
-          </Avatar>
+          <Tooltip
+            title="FastForward Links"
+            placement="right"
+            leaveDelay="100"
+            enterDelay="200"
+          >
+            <Avatar className={css.logoIcon}>
+              <FastForwardIcon />
+            </Avatar>
+          </Tooltip>
         </a>
       </Link>
       <div className={css.actions}>

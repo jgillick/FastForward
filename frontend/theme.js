@@ -40,6 +40,9 @@ const theme = createMuiTheme({
     h3: {
       fontSize: 18,
     },
+    body2: {
+      fontSize: 14,
+    }
   }
 });
 
