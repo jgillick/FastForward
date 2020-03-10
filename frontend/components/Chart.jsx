@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag'
 import { eachDayOfInterval, subDays, format } from 'date-fns';
 
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import { AreaChart, Area, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Typography from '@material-ui/core/Typography';
 
@@ -15,11 +15,11 @@ import css from './Chart.module.scss';
 const REDIRECT_LOG_QUERY = gql`
   query redirectLogs(
     $name: String!,
-    # $oAuthIdToken: String!,
+    $oAuthIdToken: String!,
   ) {
     redirectLogs(
       name: $name,
-      # oAuthIdToken: $oAuthIdToken,
+      oAuthIdToken: $oAuthIdToken,
     ) {
       id
       createdAt
@@ -40,13 +40,34 @@ export default withApollo(function Chart({ name }) {
       oAuthIdToken
     },
   });
+  const [rootElement, setRootElement] = useState();
+  const [width, setWidth] = useState(500);
   const [chartData, setChartData] = useState([]);
+
+  /**
+   * Watch the root element for size changes
+   */
+  useEffect(() => {
+    if (!rootElement) return;
+    let lastWidth = width;
+
+    const timer = setInterval(() => {
+      if (rootElement.clientWidth === lastWidth) {
+        return;
+      }
+      lastWidth = rootElement.clientWidth
+      setWidth(lastWidth);
+    }, 1000);
+
+
+    // Unmount
+    return () => clearInterval(timer);
+  }, [rootElement]);
 
   /**
    * Parse the history data
    */
   useEffect(() => {
-    console.log('Data', data);
     if (!data) return;
     const logs = data.redirectLogs;
     const dateGroups = {};
@@ -105,7 +126,9 @@ export default withApollo(function Chart({ name }) {
   }
 
   return (
-    <>
+    <div
+      ref={(e) => { setRootElement(e) }}
+    >
       { loading && (
         <LinearProgress />
       )}
@@ -116,23 +139,38 @@ export default withApollo(function Chart({ name }) {
               No data from the past 30 days.
             </Typography>
           ) : (
-            <LineChart
-              width={500}
-              height={300}
+            <AreaChart
+              width={width}
+              height={200}
               data={chartData}
-              margin={{ top: 0, right: 0, bottom: 5, left: 10 }}
+              margin={{ top: 5, right: 10, bottom: 5, left: -10 }}
             >
+              <defs>
+                <linearGradient id="colorFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#c2185b" stopOpacity={0.8}/>
+                  <stop offset="95%" stopColor="#c2185b" stopOpacity={0}/>
+                </linearGradient>
+              </defs>
+              <Tooltip />
+              <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 label="Time"
                 dataKey="date"
                 tick=""
               />
               <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="count" name="Redirects" stroke="#8884d8" />
-            </LineChart>
+              <Area
+                type="monotone"
+                dataKey="count"
+                name="Redirects"
+                stroke="#c2185b"
+                fill="url(#colorFill)"
+                fillOpacity={1}
+                animationDuration={800}
+              />
+            </AreaChart>
           )
       }
-    </>
+    </div>
   );
 });

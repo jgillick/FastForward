@@ -1,7 +1,7 @@
 import * as schema from 'nexus'
 import { authenticate, getUser, loginUser } from './auth';
 import { startOfDay, subDays } from 'date-fns';
-import { LINK_NOT_FOUND, LINK_EXISTS, AUTH_NO_USER } from './errors';
+import { LINK_NOT_FOUND, LINK_EXISTS, AUTH_NO_USER, LINK_EDITING_DISABLED } from './errors';
 
 export const Link = schema.objectType({
   name: 'Link',
@@ -217,6 +217,11 @@ export const Mutations = schema.mutationType({
         oAuthIdToken: schema.stringArg({ required: true }),
       },
       async resolve(_root, { name, url, oAuthIdToken }, ctx) {
+        // Ensure editing is enabled
+        if (process.env.LINK_EDITING !== 'enabled') {
+          throw new Error(LINK_EDITING_DISABLED);
+        }
+
         // Get autheticated user
         const user = await getUser(oAuthIdToken);
         if (!user) {
@@ -253,32 +258,6 @@ export const Mutations = schema.mutationType({
           data: { url }
         });
         return updated;
-      }
-    });
-
-    /**
-     * Create redirect log
-     */
-    t.field('addRedirectLog', {
-      type: 'RedirectLog',
-      args: {
-        link: schema.stringArg({ required: true }),
-        ip: schema.stringArg({ required: true }),
-        userAgent: schema.stringArg({ required: false }),
-      },
-      async resolve(_root, { link, ip, userAgent }, ctx) {
-        return await ctx.prisma.redirectLog.create({
-          data: {
-            ip,
-            userAgent,
-            // Link
-            link: {
-              connect: {
-                name: link,
-              },
-            },
-          },
-        });
       }
     });
   }

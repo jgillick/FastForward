@@ -1,9 +1,13 @@
+import { useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { useRouter } from 'next/router'
-import gql from 'graphql-tag'
+import { useRouter } from 'next/router';
+import gql from 'graphql-tag';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
 import Avatar from '@material-ui/core/Avatar';
+import Tooltip from '@material-ui/core/Tooltip';
+import IconButton from '@material-ui/core/IconButton';
+import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
 import Alert from '@material-ui/lab/Alert';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
@@ -13,6 +17,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Snackbar from '@material-ui/core/Snackbar';
 
 import { withApollo } from '../../../apollo/client';
 import ViewEditUrl from '../../../components/ViewEditUrl'
@@ -50,6 +55,7 @@ const LINK_QUERY = gql`
 export default withApollo(function LinkDetails() {
   const router = useRouter();
   const { name } = router.query;
+  const [ snackbarOpen, openCopySnackbar ] = useState(false);
   const { loading, error, data, refetch } = useQuery(LINK_QUERY, {
     variables: { name },
   });
@@ -59,6 +65,30 @@ export default withApollo(function LinkDetails() {
   const utcDate = (time) => new Date(new Date(time).toISOString());
   const relativeTime = (time) => formatDistanceToNow(utcDate(time), { addSuffix: true })
 
+  /**
+   * Copy the FastForward link to the clipboard
+   */
+  function copyFFUrl() {
+    const el = document.createElement('textarea');
+    el.value = `${document.location.protocol}//${document.location.host}/${link.name}`;
+    el.setAttribute('readonly', '');
+    el.style.position = 'absolute';
+    el.style.left = '-9999px';
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+
+    openCopySnackbar(true);
+  }
+
+  /**
+   * Close the copy snackbar
+   */
+  function closeCopySnackbar() {
+    openCopySnackbar(false);
+  }
+
   // Sort history
   if (history && history.length > 1) {
     history.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
@@ -66,7 +96,12 @@ export default withApollo(function LinkDetails() {
 
   return (
     <Container component="main" maxWidth="sm">
-      <Typography variant="h1">
+      <Typography variant="h1" className={css.header}>
+        <Tooltip title="Copy URL">
+          <IconButton size="small" onClick={copyFFUrl}>
+            <FileCopyOutlinedIcon fontSize="small" />
+          </IconButton>
+        </Tooltip>
         {name}
       </Typography>
 
@@ -125,6 +160,19 @@ export default withApollo(function LinkDetails() {
           </Paper>
         </>
       )}
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+        open={snackbarOpen}
+        autoHideDuration={4000}
+        onClose={closeCopySnackbar}
+      >
+        <Alert onClose={closeCopySnackbar} severity="success" variant="filled">
+          Link copied!
+        </Alert>
+      </Snackbar>
     </Container>
   );
 });

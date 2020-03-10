@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "A simple go links application written in nextjs, nexus-future and prisma.",
   "scripts": {
-    "dev": "npx babel-node ./server/index.js",
+    "dev": "npx ts-node ./server/index.js",
     "build": "npx next build",
-    "start": "npx next start"
+    "start": "npx next start",
+    "generate:nexus": "NODE_ENV=development ts-node --transpile-only backend/graphql"
   },
   "keywords": [],
   "author": "Jeremy Gillick",
@@ -44,6 +45,7 @@
     "dotenv-webpack": "^1.7.0",
     "node-sass": "^4.13.1",
     "prisma2": "latest",
+    "ts-node": "^8.6.2",
     "typescript": "^3.8.3"
   }
 }

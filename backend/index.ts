@@ -5,7 +5,7 @@ import { ApolloLogExtension } from 'apollo-log';
 import schema from './graphql'
 
 const dev = process.env.NODE_ENV !== 'production';
-const prisma = new PrismaClient({ debug: dev });
+const prisma = new PrismaClient();
 const logging = new ApolloLogExtension({
   level: (dev) ? 'debug' : 'info',
 });

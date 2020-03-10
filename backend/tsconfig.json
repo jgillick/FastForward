@@ -1,16 +1,14 @@
 {
   "compilerOptions": {
+    "target": "es2016",
     "module": "commonjs",
     "lib": ["esnext"],
-    "strict": false,
+    "strict": true,
     "esModuleInterop": true,
-    "allowJs": true,
-    "rootDir": ".",
     // [1] nexus managed
     // "rootDir": "./src",
     // "outDir": "node_modules/.build",
   },
-  "exclude": ["backend/prisma/**/*"]
   // [1] nexus managed
   // "include": "./src"
 }

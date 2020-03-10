@@ -44,6 +44,16 @@ export default function Header() {
               Links
             </Button>
           </Link>
+        </WhenLoggedIn>
+        <Link href="/_/about">
+          <Button
+            {...headerButtonProps}
+            onClick={logout}
+          >
+            About
+          </Button>
+        </Link>
+        <WhenLoggedIn>
           <Button
             {...headerButtonProps}
             onClick={logout}

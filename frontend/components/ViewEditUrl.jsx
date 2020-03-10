@@ -1,11 +1,9 @@
 import { useState, useContext } from 'react';
 import { useMutation } from '@apollo/client';
-import PropTypes from 'prop-types';
 import gql from 'graphql-tag'
 
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
-import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
 import TextField from '@material-ui/core/TextField';
 import EditIcon from '@material-ui/icons/Edit';
 import Typography from '@material-ui/core/Typography';
@@ -37,6 +35,7 @@ const UPDATE_LINK = gql`
 function ViewEditUrl(props) {
   const { link, className, onChange } = props;
   const origUrl = link.url;
+  const editEnabled = process.env.LINK_EDITING === 'enabled';
 
   const [url, setUrl] = useState(link.url || '');
   const [isEditing, setEditing] = useState(false);
@@ -144,19 +143,16 @@ function ViewEditUrl(props) {
           </>
         ) : (
           <Typography variant="body1" className={css.viewContainer}>
-            <Tooltip title="Edit URL">
-              <IconButton size="small" onClick={() => setEditing(true)}>
-                <EditIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
+            { editEnabled && (
+              <Tooltip title="Edit URL">
+                <IconButton size="small" onClick={() => editEnabled && setEditing(true)}>
+                  <EditIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
+            )}
             <a href={link.url} className={css.viewUrl}>
               {link.url}
             </a>
-            <Tooltip title="Copy URL">
-              <IconButton size="small">
-                <FileCopyOutlinedIcon fontSize="small" />
-              </IconButton>
-            </Tooltip>
           </Typography>
         )}
     </div>

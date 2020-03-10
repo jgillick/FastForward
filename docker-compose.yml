@@ -19,6 +19,7 @@ services:
       - DATABASE_URL=${DATABASE_URL}
       - AUTH_DOMAINS=${AUTH_DOMAINS}
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - LINK_EDITING=${LINK_EDITING}
       - HOST=0.0.0.0
 
   db:

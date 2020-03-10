@@ -9,7 +9,7 @@ module.exports = withSass({
   env: [
     'GRAPHQL_URL',
     'GOOGLE_CLIENT_ID',
-    'GOOGLE_API_KEY',
+    'LINK_EDITING',
   ],
 
   cssModules: true,

@@ -8,9 +8,12 @@ ENV DATABASE_URL "$DATABASE_URL"
 COPY package*.json ./
 RUN npm install
 
+COPY . .
+
 # Generate prisma module and run migrations on the DB
-COPY ./backend/prisma ./backend/prisma
 RUN npx prisma2 generate --schema=./backend/prisma/schema.prisma
-# RUN npx prisma2 migrate up --experimental --schema=backend/prisma/schema.prisma
+
+# Generate nexus schema typings
+RUN npm run generate:nexus
 
 CMD npm run dev
