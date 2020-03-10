@@ -1,13 +1,10 @@
 import React from 'react';
 import App from 'next/app';
 import Head from 'next/head';
-import { ThemeProvider } from '@material-ui/core/styles';
-import { StylesProvider } from '@material-ui/core/styles';
 
-import Header from '../components/Header';
+import Layout from '../components/Layout';
 import Authenticated, { WhenLoggedIn, WhenLoggedOut } from '../components/Authenticated';
 import LoginBlocker from '../components/LoginBlocker';
-import theme from '../theme';
 
 export default class MyApp extends App {
   componentDidMount() {
@@ -36,19 +33,16 @@ export default class MyApp extends App {
         <Head>
           <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
         </Head>
-        <ThemeProvider theme={theme}>
-          <StylesProvider injectFirst>
-            <Authenticated>
-              <Header />
-              <WhenLoggedIn>
-                <Component {...pageProps} />
-              </WhenLoggedIn>
-              <WhenLoggedOut>
-                <LoginBlocker />
-              </WhenLoggedOut>
-            </Authenticated>
-          </StylesProvider>
-        </ThemeProvider>
+        <Authenticated>
+          <Layout>
+            <WhenLoggedIn>
+              <Component {...pageProps} />
+            </WhenLoggedIn>
+            <WhenLoggedOut>
+              <LoginBlocker />
+            </WhenLoggedOut>
+          </Layout>
+        </Authenticated>
       </React.Fragment>
     );
   }
