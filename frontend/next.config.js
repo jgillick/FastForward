@@ -20,7 +20,6 @@ module.exports = withSass({
 
   webpack: config => {
     config.plugins = config.plugins || [];
-
     config.plugins = [
       ...config.plugins,
 

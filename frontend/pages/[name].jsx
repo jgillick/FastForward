@@ -2,9 +2,8 @@ import { useRouter } from 'next/router'
 
 import Container from '@material-ui/core/Container';
 
-import { WhenLoggedIn, WhenLoggedOut } from '../components/Authenticated';
+import { RequiresLogin } from '../components/Authenticated';
 import Add from '../components/Add';
-import LoginBlocker from '../components/LoginBlocker';
 
 
 /**
@@ -16,13 +15,8 @@ export default  function namedLink() {
   const { name, url } = router.query;
 
   return (
-    <Container maxWidth="lg">
-      <WhenLoggedIn>
-        <Add linkName={name} linkUrl={url} />
-      </WhenLoggedIn>
-      <WhenLoggedOut>
-        <LoginBlocker />
-      </WhenLoggedOut>
-    </Container>
+    <RequiresLogin>
+      <Add linkName={name} linkUrl={url} />
+    </RequiresLogin>
   );
 }

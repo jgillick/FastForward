@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
-import gql from 'graphql-tag';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
 import Avatar from '@material-ui/core/Avatar';
@@ -20,37 +19,13 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Snackbar from '@material-ui/core/Snackbar';
 
 import { withApollo } from '../../../apollo/client';
+import { LINK_QUERY } from '../../../apollo/queries';
+
 import ViewEditUrl from '../../../components/ViewEditUrl'
 import Chart from '../../../components/Chart'
+import { RequiresLogin } from '../../../components/Authenticated';
 
 import css from './[name].module.scss';
-
-const LINK_QUERY = gql`
-  query LinksQuery(
-    $name: String!,
-  ) {
-    link(
-      name: $name,
-    ) {
-      name
-      url
-      updatedAt
-      user {
-        name
-        picture
-      }
-      history {
-        id
-        url
-        createdAt
-        user {
-          name
-          picture
-        }
-      }
-    }
-  }
-`;
 
 export default withApollo(function LinkDetails() {
   const router = useRouter();
@@ -95,84 +70,86 @@ export default withApollo(function LinkDetails() {
   }
 
   return (
-    <Container component="main" maxWidth="sm">
-      <Typography variant="h1" className={css.header}>
-        <Tooltip title="Copy URL">
-          <IconButton size="small" onClick={copyFFUrl}>
-            <FileCopyOutlinedIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
-        {name}
-      </Typography>
+    <RequiresLogin>
+      <Container component="main" maxWidth="sm">
+        <Typography variant="h1" className={css.header}>
+          <Tooltip title="Copy URL">
+            <IconButton size="small" onClick={copyFFUrl}>
+              <FileCopyOutlinedIcon fontSize="small" />
+            </IconButton>
+          </Tooltip>
+          {name}
+        </Typography>
 
-      {/* Loading */}
-      { loading && (
-        <LinearProgress />
-      )}
+        {/* Loading */}
+        { loading && (
+          <LinearProgress />
+        )}
 
-      {/* Error */}
-      { error && (
-        <Alert severity="error" variant="filled">
-          Couldn't find that link.
-        </Alert>
-      )}
+        {/* Error */}
+        { error && (
+          <Alert severity="error" variant="filled">
+            Couldn't find that link.
+          </Alert>
+        )}
 
-      {/* Details */}
-      { link && (
-        <>
-          {/* Edit URL */}
-          <ViewEditUrl link={link} onChange={refetch} className={css.url} />
+        {/* Details */}
+        { link && (
+          <>
+            {/* Edit URL */}
+            <ViewEditUrl link={link} onChange={refetch} className={css.url} />
 
-          {/* Chart */}
-          <Paper elevation={3} className={css.chart}>
-            <Typography variant="h1">
-              Redirects
-            </Typography>
-            <Chart name={link.name} />
-          </Paper>
+            {/* Chart */}
+            <Paper elevation={3} className={css.chart}>
+              <Typography variant="h1">
+                Redirects
+              </Typography>
+              <Chart name={link.name} />
+            </Paper>
 
-          {/* Details */}
-          <Paper elevation={3} className={css.history}>
-            <Typography variant="h1">
-              Change History
-            </Typography>
-            <List>
-              {history.map((rev, i) => (
-                <ListItem
-                  key={rev.id}
-                  className={(i === 0) ? css.currentRev : css.pastRev}
-                >
-                  <ListItemAvatar>
-                    <Avatar alt={rev.user.name} src={rev.user.picture} />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={relativeTime(rev.createdAt)}
-                    secondary={rev.url}
-                    secondaryTypographyProps={{
-                      className: css.historyUrl,
-                      title: rev.url,
-                    }}
+            {/* Details */}
+            <Paper elevation={3} className={css.history}>
+              <Typography variant="h1">
+                Change History
+              </Typography>
+              <List>
+                {history.map((rev, i) => (
+                  <ListItem
+                    key={rev.id}
+                    className={(i === 0) ? css.currentRev : css.pastRev}
                   >
-                  </ListItemText>
-                </ListItem>
-              ))}
-            </List>
-          </Paper>
-        </>
-      )}
-      <Snackbar
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-        open={snackbarOpen}
-        autoHideDuration={4000}
-        onClose={closeCopySnackbar}
-      >
-        <Alert onClose={closeCopySnackbar} severity="success" variant="filled">
-          Link copied!
-        </Alert>
-      </Snackbar>
-    </Container>
+                    <ListItemAvatar>
+                      <Avatar alt={rev.user.name} src={rev.user.picture} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={relativeTime(rev.createdAt)}
+                      secondary={rev.url}
+                      secondaryTypographyProps={{
+                        className: css.historyUrl,
+                        title: rev.url,
+                      }}
+                    >
+                    </ListItemText>
+                  </ListItem>
+                ))}
+              </List>
+            </Paper>
+          </>
+        )}
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          open={snackbarOpen}
+          autoHideDuration={4000}
+          onClose={closeCopySnackbar}
+        >
+          <Alert onClose={closeCopySnackbar} severity="success" variant="filled">
+            Link copied!
+          </Alert>
+        </Snackbar>
+      </Container>
+    </RequiresLogin>
   );
 });

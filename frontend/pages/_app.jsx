@@ -3,8 +3,7 @@ import App from 'next/app';
 import Head from 'next/head';
 
 import Layout from '../components/Layout';
-import Authenticated, { WhenLoggedIn, WhenLoggedOut } from '../components/Authenticated';
-import LoginBlocker from '../components/LoginBlocker';
+import Authenticated from '../components/Authenticated';
 
 export default class MyApp extends App {
   componentDidMount() {
@@ -35,12 +34,7 @@ export default class MyApp extends App {
         </Head>
         <Authenticated>
           <Layout>
-            <WhenLoggedIn>
-              <Component {...pageProps} />
-            </WhenLoggedIn>
-            <WhenLoggedOut>
-              <LoginBlocker />
-            </WhenLoggedOut>
+            <Component {...pageProps} />
           </Layout>
         </Authenticated>
       </React.Fragment>

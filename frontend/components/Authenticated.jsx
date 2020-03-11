@@ -5,6 +5,7 @@ import gql from 'graphql-tag'
 import Alert from '@material-ui/lab/Alert';
 
 import { withApollo } from '../apollo/client'
+import LoginBlocker from '../components/LoginBlocker';
 
 export const AuthContext = React.createContext(null);
 
@@ -108,6 +109,7 @@ const Authenticated = withApollo((props) => {
   );
 });
 Authenticated.Consumer = AuthContext.Consumer;
+export default Authenticated;
 
 /**
  * Shows content if the user is logged in.
@@ -148,4 +150,18 @@ export function WhenUnknown({ children }) {
   );
 }
 
-export default Authenticated;
+/**
+ * Shows the login blocker, if the user is not logged in.
+ */
+export function RequiresLogin({ children }) {
+  return (
+    <>
+      <WhenLoggedIn>
+        {children}
+      </WhenLoggedIn>
+      <WhenLoggedOut>
+        <LoginBlocker />
+      </WhenLoggedOut>
+    </>
+  );
+}
