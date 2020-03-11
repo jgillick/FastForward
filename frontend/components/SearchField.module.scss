@@ -1,0 +1,22 @@
+
+.searchRow {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 50px 10px 10px;
+}
+
+.searchIcon {
+  color: #666;
+  margin-right: 7px;
+}
+
+.field {
+  flex-grow: 1;
+}
+
+.clearIcon {
+  position: absolute;
+  right: 10px;
+}

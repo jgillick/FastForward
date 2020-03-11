@@ -4,8 +4,15 @@
 }
 
 .listLink {
+  display: block;
   color: inherit;
   text-decoration: none;
+
+  &:hover {
+    text-decoration: none !important;
+    background: #ffedf4;
+    transition: background-color 500ms;
+  }
 }
 
 .linkUrl {
@@ -13,4 +20,14 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.urlDisplay {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.emptyState {
+  text-align: center;
 }

@@ -1,6 +1,5 @@
 import { useState, useContext } from 'react';
 import { useMutation } from '@apollo/client';
-import gql from 'graphql-tag'
 import Router from 'next/router'
 
 import Typography from '@material-ui/core/Typography';
@@ -12,34 +11,32 @@ import CheckIcon from '@material-ui/icons/Check';
 import Alert from '@material-ui/lab/Alert';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import { AuthContext } from './Authenticated';
 import { withApollo } from '../apollo/client'
+import { CREATE_LINK, LINKS_QUERY } from '../apollo/queries';
+
+import { AuthContext } from './Authenticated';
 import css from './Add.module.scss';
 
-const CREATE_LINK = gql`
-  mutation CreateLink(
-    $url: String!,
-    $name: String!,
-    $oAuthIdToken: String!,
-  ) {
-    createLink (
-      url: $url
-      name: $name
-      oAuthIdToken: $oAuthIdToken
-    ) {
-      name
-      url
-    }
-  }
-`;
 
 function Add({ linkName, linkUrl }) {
   const [url, setUrl] = useState(linkUrl || '');
   const [name, setName] = useState(linkName || '');
   const [fieldErrors, setFieldErrors] = useState({});
   const [success, openSuccess] = useState();
-  const [submitLink, submitState] = useMutation(CREATE_LINK);
   const { oAuthIdToken } = useContext(AuthContext);
+
+  const [submitLink, submitState] = useMutation(CREATE_LINK, {
+    update(cache, { data: { link } }) {
+      console.log(cache);
+      const { links } = cache.readQuery({
+        query: LINKS_QUERY,
+      });
+      cache.writeQuery({
+        query: LINKS_QUERY,
+        data: { links: links.concat([link]) },
+      });
+    }
+  });
 
   /**
    * Validate name
@@ -178,7 +175,7 @@ function Add({ linkName, linkUrl }) {
             type="submit"
             size="medium"
             variant="contained"
-            color="primary"
+            color="secondary"
             disabled={submitState.loading}
             className={success ? css.buttonSuccess : ''}
           >

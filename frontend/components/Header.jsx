@@ -31,8 +31,8 @@ export default function Header() {
           <Tooltip
             title="FastForward Links"
             placement="right"
-            leaveDelay="100"
-            enterDelay="200"
+            leaveDelay={100}
+            enterDelay={200}
           >
             <Avatar className={css.logoIcon}>
               <FastForwardIcon />
