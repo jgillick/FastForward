@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { OAuth2Client } from 'google-auth-library';
-import { AUTH_INVALID_DOMAIN, INVALID_AUTH } from './errors';
+import errors from './errors';
 
 const prisma = new PrismaClient();
 
@@ -26,13 +26,13 @@ export async function authenticate(idToken) {
         .filter(d => d.trim().toLowerCase());
 
       if (!domain || !domainWhitelist.includes(domain)) {
-        throw new Error(AUTH_INVALID_DOMAIN);
+        throw new Error(errors.AUTH_INVALID_DOMAIN);
       }
     }
 
     return payload;
   } catch(e) {
-    throw new Error(INVALID_AUTH);
+    throw new Error(errors.INVALID_AUTH);
   }
 }
 

@@ -6,7 +6,9 @@
     "dev": "npx ts-node ./server/index.js",
     "build": "npx next build",
     "start": "npx next start",
-    "generate:nexus": "NODE_ENV=development ts-node --transpile-only backend/graphql"
+    "generate:nexus": "NODE_ENV=development ts-node --transpile-only backend/graphql",
+    "prisma:generate": "npx prisma2 generate --schema=./backend/prisma/schema.prisma",
+    "prisma:migrations": "npx prisma2 migrate up --experimental --schema=backend/prisma/schema.prisma"
   },
   "keywords": [],
   "author": "Jeremy Gillick",
@@ -44,7 +46,7 @@
     "dotenv": "^8.2.0",
     "dotenv-webpack": "^1.7.0",
     "node-sass": "^4.13.1",
-    "prisma2": "latest",
+    "prisma2": "^2.0.0-preview023",
     "ts-node": "^8.6.2",
     "typescript": "^3.8.3"
   }

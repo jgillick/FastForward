@@ -6,19 +6,11 @@
     "esModuleInterop": true,
     "allowJs": true,
     "rootDir": ".",
-    // [1] nexus managed
-    // "rootDir": "./src",
-    // "outDir": "node_modules/.build",
+    "moduleResolution": "node",
+  },
+  "paths": {
+    "components/*": ["frontend/components/*"],
+    "apollo/*": ["frontend/apollo/*"],
   },
   "exclude": ["backend/prisma/**/*"]
-  // [1] nexus managed
-  // "include": "./src"
 }
-
-// [1] nexus managed
-//
-// These settings are managed by nexus.
-// Do not edit these manually. Please refer to
-// https://github.com/graphql-nexus/nexus-future/issues/82
-// Contribute feedback/use-cases if you feel strongly
-// about controlling these settings manually.
