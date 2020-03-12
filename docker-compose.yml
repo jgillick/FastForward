@@ -8,19 +8,19 @@ services:
         - DATABASE_URL=${DATABASE_URL}
     command: npm run dev
     ports:
-      - "3000:3000"
+      - "${PORT}:${PORT}"
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
     depends_on:
       - db
     environment:
-      - GRAPHQL_URL=${GRAPHQL_URL}
       - DATABASE_URL=${DATABASE_URL}
       - AUTH_DOMAINS=${AUTH_DOMAINS}
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
       - LINK_EDITING=${LINK_EDITING}
       - HOST=0.0.0.0
+      - PORT=${PORT}
 
   db:
     image: mysql

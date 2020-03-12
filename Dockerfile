@@ -23,6 +23,4 @@ RUN npm run prisma:generate
 RUN npm run generate:nexus
 # RUN NODE_ENV=development npx ts-node --transpile-only ./backend/graphql
 
-RUN npx ts-node -e 'console.log(`test`)'
-
 CMD npm run dev
