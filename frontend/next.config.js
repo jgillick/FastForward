@@ -6,6 +6,7 @@ const withSass = require('@zeit/next-sass')
 dotenv.config();
 
 module.exports = withSass({
+  target: 'serverless',
   env: [
     'GRAPHQL_URL',
     'GOOGLE_CLIENT_ID',

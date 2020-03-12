@@ -4,8 +4,8 @@
   "description": "A simple go links application written in nextjs, nexus-future and prisma.",
   "scripts": {
     "dev": "npx ts-node ./server/index.js",
-    "build": "npx next build",
-    "start": "npx next start",
+    "build": "npx next build ./frontend",
+    "start": "NODE_ENV=production npx ts-node ./server/index.js",
     "generate:nexus": "NODE_ENV=development ts-node --transpile-only backend/graphql",
     "prisma:generate": "npx prisma2 generate --schema=./backend/prisma/schema.prisma",
     "prisma:migrations": "npx prisma2 migrate up --experimental --schema=backend/prisma/schema.prisma"
