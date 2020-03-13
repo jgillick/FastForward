@@ -16,7 +16,7 @@ export default  function namedLink() {
 
   return (
     <RequiresLogin>
-      <Add linkName={name} linkUrl={url} />
+      <Add name={name} url={url} />
     </RequiresLogin>
   );
 }

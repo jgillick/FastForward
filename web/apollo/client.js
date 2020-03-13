@@ -151,7 +151,7 @@ export function createApolloClient(initialState = {}) {
 function createIsomorphLink() {
   const { HttpLink } = require('apollo-link-http');
   return new HttpLink({
-    uri: `http://0.0.0.0:${PORT}/_/graphql`,
+    uri: `http://${process.env.HOST}:${process.env.PORT}/_/graphql`,
     credentials: 'same-origin',
   })
 }

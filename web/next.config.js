@@ -3,7 +3,8 @@ const dotenv = require("dotenv");
 const dotenvWebpack = require("dotenv-webpack");
 const withSass = require('@zeit/next-sass')
 
-dotenv.config();
+const envFile = path.join(__dirname, '../.env');
+dotenv.config({ path: envFile });
 
 module.exports = withSass({
   target: 'serverless',
@@ -11,6 +12,8 @@ module.exports = withSass({
     'GRAPHQL_URL',
     'GOOGLE_CLIENT_ID',
     'LINK_EDITING',
+    'HOST',
+    'PORT',
   ],
 
   cssModules: true,
@@ -26,9 +29,9 @@ module.exports = withSass({
 
       // Read the .env file
       new dotenvWebpack({
-        path: path.join(__dirname, ".env"),
+        path: envFile,
         systemvars: true,
-      })
+      }),
     ];
 
     return config;

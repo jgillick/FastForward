@@ -1,0 +1,12 @@
+{
+  "ignore": [
+    ".git",
+    "node_modules",
+    "web/**/*"
+  ],
+  "watch": [
+    "backend",
+    "tsconfig.json",
+    "frontend/next.config.js"
+  ]
+}

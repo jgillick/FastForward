@@ -1,6 +1,4 @@
-import Container from '@material-ui/core/Container';
-
-import Add from '../components/Add.jsx';
+import Add from '../components/Add';
 import { RequiresLogin } from '../components/Authenticated';
 
 export default function Index() {

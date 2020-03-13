@@ -13,6 +13,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 
 import { withApollo } from '../apollo/client';
 import { LINKS_QUERY } from '../apollo/queries';
+
 import { AuthContext } from './Authenticated';
 import SearchField from './SearchField';
 

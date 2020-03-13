@@ -1,8 +1,7 @@
 import url from 'url';
 import { PrismaClient } from '@prisma/client'
 
-const dev = process.env.NODE_ENV !== 'production';
-const prisma = new PrismaClient({ debug: dev });
+const prisma = new PrismaClient();
 
 export default async function redirectHandler(req, res, next) {
   // Remove leading slash from path

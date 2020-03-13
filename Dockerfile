@@ -20,7 +20,7 @@ COPY . .
 RUN npm run prisma:generate
 
 # Generate nexus schema typings
-RUN npm run generate:nexus
+RUN npm run nexus:generate
 # RUN NODE_ENV=development npx ts-node --transpile-only ./backend/graphql
 
 CMD npm run dev

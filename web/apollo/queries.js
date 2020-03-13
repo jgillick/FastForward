@@ -70,3 +70,19 @@ export const CREATE_LINK = gql`
     }
   }
 `;
+
+/**
+ * Log a user in
+ */
+export const LOGIN_USER = gql`
+  mutation Login(
+    $oAuthIdToken: String!,
+  ) {
+    login (
+      oAuthIdToken: $oAuthIdToken
+    ) {
+      id
+      name
+    }
+  }
+`;

@@ -18,7 +18,7 @@ export default class MyApp extends App {
     if (module.hot) {
       module.hot.addStatusHandler(status => {
         if (typeof window !== "undefined" && status === "ready") {
-          window.__webpack_reload_css__ = true;
+          window['__webpack_reload_css__'] = true;
         }
       });
     }

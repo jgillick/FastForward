@@ -8,7 +8,7 @@ import css from './LoginBlocker.module.scss';
 
 
 export default function LoginBlocker() {
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<string | false>(false);
 
   /**
    * Login failure
@@ -40,7 +40,6 @@ export default function LoginBlocker() {
         clientId={process.env.GOOGLE_CLIENT_ID}
         buttonText="Login with Google"
         theme="dark"
-        offline={true}
         cookiePolicy="single_host_origin"
         onSuccess={onSuccess}
         onFailure={onFailure}

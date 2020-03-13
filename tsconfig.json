@@ -1,16 +1,20 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "lib": ["esnext"],
-    "strict": false,
-    "esModuleInterop": true,
     "allowJs": true,
-    "rootDir": ".",
+    "alwaysStrict": false,
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "lib": ["es2017", "dom"],
+    "module": "commonjs",
     "moduleResolution": "node",
+    "noEmit": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": false,
   },
-  "paths": {
-    "components/*": ["frontend/components/*"],
-    "apollo/*": ["frontend/apollo/*"],
-  },
-  "exclude": ["backend/prisma/**/*"]
+  "exclude": ["node_modules"],
+  "include": ["**/*.ts", "**/*.tsx"]
 }

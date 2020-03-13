@@ -4,6 +4,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Container from '@material-ui/core/Container';
 import FastForwardIcon from '@material-ui/icons/FastForward';
 import Button from '@material-ui/core/Button';
+import { ButtonProps } from "@material-ui/core/Button";
 import Link from 'next/link'
 
 import { WhenLoggedIn } from '../components/Authenticated';
@@ -11,7 +12,7 @@ import { WhenLoggedIn } from '../components/Authenticated';
 import css from './Header.module.scss';
 
 export default function Header() {
-  const headerButtonProps = {
+  const headerButtonProps:ButtonProps = {
     color: 'secondary',
     size: 'small',
     className: css.actionButton,

@@ -19,7 +19,7 @@ model Link {
 model Revision {
   id          String         @default(uuid()) @id
   link        Link
-  url         String
+  url         String         // Should be varchar(2048)
   user        User
   createdAt   DateTime       @default(now())
 }

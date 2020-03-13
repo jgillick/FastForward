@@ -17,12 +17,24 @@ import { CREATE_LINK, LINKS_QUERY } from '../apollo/queries';
 import { AuthContext } from './Authenticated';
 import css from './Add.module.scss';
 
+type AddProps = {
+  name: string,
+  url: string,
+};
 
-function Add({ linkName, linkUrl }) {
+interface IFieldErrors {
+  name: string | boolean;
+  url: string | boolean
+};
+
+function Add({ name:linkName, url:linkUrl }: AddProps) {
   const [url, setUrl] = useState(linkUrl || '');
   const [name, setName] = useState(linkName || '');
-  const [fieldErrors, setFieldErrors] = useState({});
-  const [success, openSuccess] = useState();
+  const [fieldErrors, setFieldErrors] = useState<IFieldErrors>({
+    name: false,
+    url: false,
+  });
+  const [success, openSuccess] = useState(false);
   const { oAuthIdToken } = useContext(AuthContext);
 
   const [submitLink, submitState] = useMutation(CREATE_LINK, {
@@ -50,8 +62,8 @@ function Add({ linkName, linkUrl }) {
     errs.name = false;
     if (nameNorm.length === 0) {
       errs.name = 'Name cannot be empty';
-    } else if (/[^a-z0-9\-\.]/i.test(nameNorm)) {
-      errs.name = 'This can only have alphanumeric characters, "-" and "."';
+    } else if (/[^a-z0-9\-\.:]/i.test(nameNorm)) {
+      errs.name = 'This can only have letters, numbers, "-", ":", and "."';
     }
 
     setFieldErrors(errs);
@@ -105,7 +117,7 @@ function Add({ linkName, linkUrl }) {
   /**
    * Close success snackbar
    */
-  function handleSuccessClose(event, reason) {
+  function handleSuccessClose(_event, reason=null) {
     if (reason === 'clickaway') {
       return;
     }

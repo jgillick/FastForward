@@ -1,28 +1,17 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, FunctionComponent } from 'react';
 import { useMutation } from '@apollo/client';
-import gql from 'graphql-tag'
 
 import Alert from '@material-ui/lab/Alert';
 
 import { withApollo } from '../apollo/client'
+import { LOGIN_USER } from '../apollo/queries'
 import LoginBlocker from '../components/LoginBlocker';
 
 export const AuthContext = React.createContext(null);
 
-const LOGIN_USER = gql`
-  mutation Login(
-    $oAuthIdToken: String!,
-  ) {
-    login (
-      oAuthIdToken: $oAuthIdToken
-    ) {
-      id
-      name
-    }
-  }
-`;
+interface AuthenticatedProps { }
 
-const Authenticated = withApollo((props) => {
+const Authenticated:FunctionComponent<AuthenticatedProps> = withApollo(({ children }) => {
   const [isSignedIn, setSigninStatus] = useState(null);
   const [oAuthIdToken, setOAuthID] = useState(null);
   const [loginError, setLoginError] = useState(null);
@@ -48,8 +37,12 @@ const Authenticated = withApollo((props) => {
     if (!loginResponse.error) {
       return;
     }
+    if (loginResponse.error.message.indexOf('INVALID_AUTH') > -1) {
+      setLoginError('Logins are not allowed from this email domain. Talk to your administrator for access.');
+    } else {
+      setLoginError('We hit a problem trying to log you in with the backend.');
+    }
     setSigninStatus(false);
-    setLoginError('We hit a problem trying to log you in with the backend.');
   }, [loginResponse.error]);
 
   /**
@@ -68,7 +61,7 @@ const Authenticated = withApollo((props) => {
    */
   function getAuthentication() {
     gapi.auth2.init({
-      clientId: process.env.GOOGLE_CLIENT_ID,
+      client_id: process.env.GOOGLE_CLIENT_ID,
     }).then(function () {
       // Handle the initial sign-in state.
       const googleAuth = gapi.auth2.getAuthInstance();
@@ -90,7 +83,7 @@ const Authenticated = withApollo((props) => {
     } else {
       loginUser({
         variables: { oAuthIdToken: getOauthID() }
-      });
+      }).catch((e) => {});
     }
   }
 
@@ -104,11 +97,10 @@ const Authenticated = withApollo((props) => {
           {loginError}
         </Alert>
       )}
-      {props.children}
+      {children}
     </AuthContext.Provider>
   );
 });
-Authenticated.Consumer = AuthContext.Consumer;
 export default Authenticated;
 
 /**

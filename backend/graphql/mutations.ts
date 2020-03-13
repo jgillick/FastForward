@@ -13,7 +13,7 @@ const Mutations = schema.mutationType({
       args: {
         oAuthIdToken: schema.stringArg({ required: true }),
       },
-      async resolve(_root, args, ctx) {
+      async resolve(_root, args, _ctx) {
         return await loginUser(args.oAuthIdToken);
       }
     });
