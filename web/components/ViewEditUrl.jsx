@@ -12,7 +12,6 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import { AuthContext } from './Authenticated';
-import { withApollo } from '../apollo/client';
 
 import css from './ViewEditUrl.module.scss';
 
@@ -32,7 +31,7 @@ const UPDATE_LINK = gql`
   }
 `;
 
-function ViewEditUrl(props) {
+export default function ViewEditUrl(props) {
   const { link, className, onChange } = props;
   const origUrl = link.url;
   const editEnabled = process.env.LINK_EDITING === 'enabled';
@@ -158,5 +157,3 @@ function ViewEditUrl(props) {
     </div>
   );
 }
-
-export default withApollo(ViewEditUrl);

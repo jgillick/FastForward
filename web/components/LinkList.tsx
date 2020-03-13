@@ -11,7 +11,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 
-import { withApollo } from '../apollo/client';
 import { LINKS_QUERY } from '../apollo/queries';
 
 import { AuthContext } from './Authenticated';
@@ -19,10 +18,10 @@ import SearchField from './SearchField';
 
 import css from './LinkList.module.scss';
 
-function LinkList() {
+export default function LinkList() {
   const { oAuthIdToken } = useContext(AuthContext);
   const { loading, error, data, refetch } = useQuery(LINKS_QUERY, {
-    variables: { oAuthIdToken },
+    variables: { query: null, oAuthIdToken },
   });
   const links = (data) ? data.links : [];
 
@@ -94,5 +93,3 @@ function LinkList() {
     </Container>
   );
 }
-
-export default withApollo(LinkList);

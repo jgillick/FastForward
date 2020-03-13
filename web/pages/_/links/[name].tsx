@@ -18,7 +18,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Snackbar from '@material-ui/core/Snackbar';
 
-import { withApollo } from '../../../apollo/client';
 import { LINK_QUERY } from '../../../apollo/queries';
 
 import ViewEditUrl from '../../../components/ViewEditUrl'
@@ -27,7 +26,7 @@ import { RequiresLogin } from '../../../components/Authenticated';
 
 import css from './[name].module.scss';
 
-export default withApollo(function LinkDetails() {
+export default function LinkDetails() {
   const router = useRouter();
   const { name } = router.query;
   const [ snackbarOpen, openCopySnackbar ] = useState(false);
@@ -110,7 +109,7 @@ export default withApollo(function LinkDetails() {
             {/* Details */}
             <Paper elevation={3} className={css.history}>
               <Typography variant="h1">
-                Change History
+                { (history.length > 1) ? "Change history" : "Created by" }
               </Typography>
               <List>
                 {history.map((rev, i) => (
@@ -152,4 +151,4 @@ export default withApollo(function LinkDetails() {
       </Container>
     </RequiresLogin>
   );
-});
+}

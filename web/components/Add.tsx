@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, FunctionComponent } from 'react';
 import { useMutation } from '@apollo/client';
 import Router from 'next/router'
 
@@ -11,15 +11,14 @@ import CheckIcon from '@material-ui/icons/Check';
 import Alert from '@material-ui/lab/Alert';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import { withApollo } from '../apollo/client'
 import { CREATE_LINK, LINKS_QUERY } from '../apollo/queries';
 
 import { AuthContext } from './Authenticated';
 import css from './Add.module.scss';
 
-type AddProps = {
-  name: string,
-  url: string,
+interface IAddProps {
+  name?: string;
+  url?: string;
 };
 
 interface IFieldErrors {
@@ -27,7 +26,7 @@ interface IFieldErrors {
   url: string | boolean
 };
 
-function Add({ name:linkName, url:linkUrl }: AddProps) {
+const Add = ({ name:linkName, url:linkUrl }: IAddProps) =>{
   const [url, setUrl] = useState(linkUrl || '');
   const [name, setName] = useState(linkName || '');
   const [fieldErrors, setFieldErrors] = useState<IFieldErrors>({
@@ -216,6 +215,5 @@ function Add({ name:linkName, url:linkUrl }: AddProps) {
       </form>
     </Container>
   );
-}
-
-export default withApollo(Add);
+};
+export default Add;

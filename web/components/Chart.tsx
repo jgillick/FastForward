@@ -7,7 +7,7 @@ import { AreaChart, Area, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts'
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Typography from '@material-ui/core/Typography';
 
-import { withApollo, getGraphqlErrors } from '../apollo/client';
+import { getGraphqlErrors } from '../apollo/client';
 import { AuthContext } from './Authenticated';
 
 import css from './Chart.module.scss';
@@ -32,7 +32,7 @@ const MAX_DAYS = 30;
 
 const utcDate = () => new Date(new Date().toISOString());
 
-export default withApollo(function Chart({ name }) {
+export default function Chart({ name }) {
   const { oAuthIdToken } = useContext(AuthContext);
   const { loading, data, error } = useQuery(REDIRECT_LOG_QUERY, {
     variables: {
@@ -40,8 +40,8 @@ export default withApollo(function Chart({ name }) {
       oAuthIdToken
     },
   });
-  const [rootElement, setRootElement] = useState();
-  const [width, setWidth] = useState(500);
+  const [rootElement, setRootElement] = useState(null);
+  const [width, setWidth] = useState(400);
   const [chartData, setChartData] = useState([]);
 
   /**
@@ -52,7 +52,7 @@ export default withApollo(function Chart({ name }) {
     let lastWidth = width;
 
     const timer = setInterval(() => {
-      if (rootElement.clientWidth === lastWidth) {
+      if (rootElement?.clientWidth === lastWidth) {
         return;
       }
       lastWidth = rootElement.clientWidth
@@ -173,4 +173,4 @@ export default withApollo(function Chart({ name }) {
       }
     </div>
   );
-});
+};

@@ -3,15 +3,14 @@ import { useMutation } from '@apollo/client';
 
 import Alert from '@material-ui/lab/Alert';
 
-import { withApollo } from '../apollo/client'
 import { LOGIN_USER } from '../apollo/queries'
 import LoginBlocker from '../components/LoginBlocker';
 
 export const AuthContext = React.createContext(null);
 
-interface AuthenticatedProps { }
+interface IAuthenticatedProps { }
 
-const Authenticated:FunctionComponent<AuthenticatedProps> = withApollo(({ children }) => {
+const Authenticated:FunctionComponent<IAuthenticatedProps> = ({ children }) => {
   const [isSignedIn, setSigninStatus] = useState(null);
   const [oAuthIdToken, setOAuthID] = useState(null);
   const [loginError, setLoginError] = useState(null);
@@ -100,7 +99,7 @@ const Authenticated:FunctionComponent<AuthenticatedProps> = withApollo(({ childr
       {children}
     </AuthContext.Provider>
   );
-});
+};
 export default Authenticated;
 
 /**

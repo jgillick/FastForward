@@ -1,11 +1,12 @@
 import React from 'react';
 import App from 'next/app';
 import Head from 'next/head';
+import { withApollo } from '../apollo/client'
 
 import Layout from '../components/Layout';
 import Authenticated from '../components/Authenticated';
 
-export default class MyApp extends App {
+class MyApp extends App {
   componentDidMount() {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
@@ -41,3 +42,5 @@ export default class MyApp extends App {
     );
   }
 }
+const MyAppApollo = withApollo(MyApp);
+export default MyAppApollo;

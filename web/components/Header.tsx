@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import { ButtonProps } from "@material-ui/core/Button";
 import Link from 'next/link'
 
-import { WhenLoggedIn } from '../components/Authenticated';
+import { WhenLoggedIn, WhenLoggedOut } from '../components/Authenticated';
 
 import css from './Header.module.scss';
 
@@ -42,6 +42,13 @@ export default function Header() {
         </a>
       </Link>
       <div className={css.actions}>
+        <WhenLoggedOut>
+          <Link href="/">
+            <Button {...headerButtonProps}>
+              Login
+            </Button>
+          </Link>
+        </WhenLoggedOut>
         <WhenLoggedIn>
           <Link href="/">
             <Button {...headerButtonProps}>
